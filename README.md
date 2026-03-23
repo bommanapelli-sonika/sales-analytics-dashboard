@@ -1,5 +1,9 @@
 # 📊 Sales Analytics Dashboard
 
+🔗 Live Demo: Open index.html in browser
+
+---
+
 ## 🚀 Project Overview
 This project is a Sales Analytics Dashboard built using HTML, JavaScript, and Chart.js.  
 It fetches real-time data from an API and visualizes it using interactive charts.
