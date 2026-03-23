@@ -1,6 +1,6 @@
 # 📊 Sales Analytics Dashboard
 
-🔗 Live Demo: Open index.html in browser
+🔗 Live Demo: https://bommanapelli-sonika.github.io/sales-analytics-dashboard/
 
 ---
 
