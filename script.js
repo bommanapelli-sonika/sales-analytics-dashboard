@@ -1,51 +1,95 @@
-window.onload = function () {
+let labels = [];
+let values = [];
 
-    fetch("https://dummyjson.com/products")
-        .then(res => res.json())
-        .then(data => {
+let barChart, pieChart;
 
-            const products = data.products.slice(0, 6);
+// INIT CHARTS
+function createCharts() {
 
-            const labels = products.map(p => p.title);
-            const values = products.map(p => p.price);
+    const ctx1 = document.getElementById("barChart");
+    const ctx2 = document.getElementById("pieChart");
 
-            // 📊 BAR CHART
-            new Chart(document.getElementById("barChart"), {
-                type: "bar",
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: "Product Prices",
-                        data: values
-                    }]
-                }
-            });
+    barChart = new Chart(ctx1, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Sales Data",
+                data: values,
+                backgroundColor: "skyblue"
+            }]
+        }
+    });
 
-            // 🥧 PIE CHART
-            new Chart(document.getElementById("pieChart"), {
-                type: "pie",
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: values
-                    }]
-                }
-            });
+    pieChart = new Chart(ctx2, {
+        type: "pie",
+        data: {
+            labels: labels,
+            datasets: [{
+                data: values,
+                backgroundColor: [
+                    "red", "blue", "green", "orange", "purple", "gray"
+                ]
+            }]
+        }
+    });
+}
 
-            // 📊 ANALYSIS
-            const total = values.reduce((a, b) => a + b, 0);
-            const max = Math.max(...values);
-            const min = Math.min(...values);
+// ADD DATA
+function addData() {
+    const product = document.getElementById("product").value;
+    const price = document.getElementById("price").value;
 
-            const maxProduct = products.find(p => p.price === max).title;
-            const minProduct = products.find(p => p.price === min).title;
+    if (product === "" || price === "") {
+        alert("Enter data");
+        return;
+    }
 
-            document.getElementById("summary").innerHTML =
-                `Total Value: $${total} | Highest: ${maxProduct} | Lowest: ${minProduct}`;
-        })
-        .catch(err => {
-            document.getElementById("summary").innerText = "Error loading data";
-            console.log(err);
-        });
+    labels.push(product);
+    values.push(Number(price));
 
-};
+    document.getElementById("product").value = "";
+    document.getElementById("price").value = "";
+
+    updateAll();
+}
+
+// UPDATE ALL
+function updateAll() {
+
+    document.getElementById("tableBody").innerHTML =
+        labels.map((p, i) =>
+            `<tr><td>${p}</td><td>${values[i]}</td></tr>`
+        ).join("");
+
+    const total = values.reduce((a, b) => a + b, 0);
+    const max = Math.max(...values);
+    const min = Math.min(...values);
+
+    const maxProduct = labels[values.indexOf(max)];
+    const minProduct = labels[values.indexOf(min)];
+
+    document.getElementById("summary").innerHTML =
+        "Total: $" + total +
+        " | Highest: " + maxProduct +
+        " | Lowest: " + minProduct;
+
+    barChart.data.labels = labels;
+    barChart.data.datasets[0].data = values;
+    barChart.update();
+
+    pieChart.data.labels = labels;
+    pieChart.data.datasets[0].data = values;
+    pieChart.update();
+}
+
+// CLEAR DATA
+function clearData() {
+    labels = [];
+    values = [];
+
+    updateAll();
+}
+
+// START
+createCharts();
