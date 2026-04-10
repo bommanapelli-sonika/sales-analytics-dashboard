@@ -1,31 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sales Analytics Dashboard</title>
+    <title>Sales Dashboard (Typing Data)</title>
+
     <style>
         body {
             font-family: Arial;
             text-align: center;
+            background: #f4f6f9;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 15px;
+            width: 70%;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0px 2px 8px gray;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        table {
+            margin: 20px auto;
+            width: 60%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
         }
 
         canvas {
-            width: 600px !important;
-            height: 350px !important;
+            width: 500px !important;
+            height: 300px !important;
             margin: 20px auto;
             display: block;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 8px gray;
+        }
+
+        .charts {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
         }
     </style>
 </head>
+
 <body>
 
-<h1>Sales Analytics Dashboard</h1>
+<h1>Sales Dashboard</h1>
 
-<h3 id="summary">Loading data...</h3>
+<!-- INPUT -->
+<div class="box">
+    <input id="product" placeholder="Enter Product Name">
+    <input id="price" type="number" placeholder="Enter Price">
+    <button onclick="addData()">Add Data</button>
+    <button onclick="clearData()">Clear All</button>
+</div>
 
-<canvas id="barChart"></canvas>
-<canvas id="pieChart"></canvas>
+<h3 id="summary">No data</h3>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<!-- TABLE -->
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+<!-- CHARTS -->
+<div class="charts">
+    <canvas id="barChart"></canvas>
+    <canvas id="pieChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="script.js"></script>
 
 </body>
